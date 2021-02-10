@@ -1,4 +1,16 @@
-'use strict'; // Включает строгий режим
+'use strict';
+
+
+const onesArr = ["","I","II","III","IV","V","VI","VII","VIII","IX"];
+const tensArr = ["","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"];
+const hundredsArr = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"];
+const thousendsArr = ["","M","MM","MMM","MMMM"];
+
+const arabNum = [1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000];
+const romanNum = ['I','IV','V','IX','X','XL','L','XC','C','CD','D','CM','M'];
+
+const minRomanNumber = 1;
+const maxRomanNumber = 3999;
 
 
 /**
@@ -12,18 +24,13 @@
  * // returns 'V' 5
  * arabicToRoman(5);
  */
-function arabicToRoman(num) {
-    const ones = ["","I","II","III","IV","V","VI","VII","VIII","IX"];
-    const tens = ["","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"];
-    const hunds = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"];
-    const thous = ["","M","MM","MMM","MMMM"];
+function arabicToRoman(num) {    
+    const thousends = thousendsArr[parseInt(num / 1000)];
+    const hundreds = hundredsArr[parseInt(num / 100 % 10)];
+    const tens = tensArr[parseInt(num / 10 % 10)];
+    const ones = onesArr[parseInt(num % 10)];
     
-    const t = thous[parseInt(num / 1000)];
-    const h = hunds[parseInt(num / 100 % 10)];
-    const te = tens[parseInt(num / 10 % 10)];
-    const o = ones[parseInt(num % 10)];
-    
-    let res = t + h + te + o;
+    let res = thousends + hundreds + tens + ones;
 
     return res;
 }
@@ -41,30 +48,27 @@ function arabicToRoman(num) {
  * romanToArabic('V');
  */
 function romanToArabic(str) {
-	const arab = [1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000];
-	const roman = ['I','IV','V','IX','X','XL','L','XC','C','CD','D','CM','M'];
+    str = str.toUpperCase();
 
-	str = str.toUpperCase();
+    let ret = 0;
+    let i = arabNum.length - 1;
+    let pos = 0;
 
-	let ret = 0;
-	let i = arab.length - 1;
-	let pos = 0;
-
-	while (i >= 0 && pos < str.length) {
-		if (str.substr(pos, roman[i].length) == roman[i]) {
-			ret += arab[i];
-			pos += roman[i].length;
-		}
-		else {
-			i--;
-		}
-	}
-
-    if (ret < 0 || ret > 3999) {
-    	return null
+    while (i >= 0 && pos < str.length) {
+        if (str.substr(pos, romanNum[i].length) == romanNum[i]) {
+            ret += arabNum[i];
+            pos += romanNum[i].length;
+        }
+        else {
+            i--;
+        }
     }
 
-	return ret;
+    if (ret < minRomanNumber || ret > maxRomanNumber) {
+        return null
+    }
+
+    return ret;
 }
 
 
@@ -78,20 +82,20 @@ function romanToArabic(str) {
  *
  * @ example
  * // returns true
- * numCorrectnesCheck("IV", "IVXLCDM");
+ * checkNumCorrectnes("IV", "IVXLCDM");
  */
-const numCorrectnesCheck = (str, containsOf) => {
-	const template = containsOf;
+const checkNumCorrectnes = (str, containsOf) => {
+    const template = containsOf;
 
-	str = str.toUpperCase();
+    str = str.toUpperCase();
 
-	for (var i = 0; i < str.length; i++) {
-		if (template.indexOf(str[i]) === -1) {
-			return false;
-		}
-	}
+    for (var i = 0; i < str.length; i++) {
+        if (template.indexOf(str[i]) === -1) {
+            return false;
+        }
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -99,33 +103,33 @@ const numCorrectnesCheck = (str, containsOf) => {
  *
  * Convert Roman to Arabic numerals and vice versa
  *
- * @param {str} string - given string or integer roman number
- * @returns {res} result - integer number or string (converted number)
+ * @param {string} numToConvert - given roman number string or integer arabic number
+ * @returns {string, integer} result - integer number or string (converted number)
  *
  * @ example
  * // returns 5
  * roman('V');
  */
 function roman(numToConvert) {
-	if (numToConvert === null || numToConvert === undefined) {
-		return null;
-	}
+    if (!numToConvert) {
+        return null;
+    }
 
-	if (typeof numToConvert === "number" && Number.isInteger(numToConvert) === true &&
-		numToConvert != NaN && numToConvert != Infinity &&
-		numToConvert > 0 && numToConvert < 4000) {
-		return arabicToRoman(numToConvert);
-	}
-	else if (typeof numToConvert === "string" && numToConvert.length != 0) {
-		if (numCorrectnesCheck(numToConvert, "IVXLCDM") === true) {
-			return romanToArabic(numToConvert);
-		}
-		else if (numCorrectnesCheck(numToConvert, "1234567890") === true &&
-				 numToConvert != NaN && numToConvert != Infinity &&
-				 numToConvert > 0 && numToConvert < 4000) {
-			return arabicToRoman(parseInt(numToConvert));
-		}
-	}
+    if (typeof numToConvert === "number" && Number.isInteger(numToConvert) === true &&
+        numToConvert >= minRomanNumber && numToConvert <= maxRomanNumber) {
+        return arabicToRoman(numToConvert);
+    }
+    
+    if (typeof numToConvert === "string" && numToConvert.length != 0) {
+        if (checkNumCorrectnes(numToConvert, "IVXLCDM") === true) {
+            return romanToArabic(numToConvert);
+        }
+        
+        if (checkNumCorrectnes(numToConvert, "1234567890") === true &&
+            parseInt(numToConvert) >= minRomanNumber && parseInt(numToConvert) <= maxRomanNumber) {
+            return arabicToRoman(parseInt(numToConvert));
+        }
+    }
 
-	return null;
+    return null;
 }

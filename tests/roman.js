@@ -1,5 +1,6 @@
 'use strict';
 
+
 QUnit.module('Тестируем функцию roman', function () {
 	QUnit.test('roman правильно переводит из римской системы счисления', function (assert) {
 		assert.strictEqual(roman('I'), 1);
@@ -52,6 +53,12 @@ QUnit.module('Тестируем функцию roman', function () {
 		assert.strictEqual(roman('9999999999999'), null);
 		assert.strictEqual(roman('MMMMMMMCCCCCCIIII'), null);
 		assert.strictEqual(roman(''), null);
+
+		assert.strictEqual(roman(null), null);
+		assert.strictEqual(roman(undefined), null);
+		assert.strictEqual(roman([]), null);
+		assert.strictEqual(roman({}), null);
+
 
 
 	});
