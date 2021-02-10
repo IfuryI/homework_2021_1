@@ -89,11 +89,11 @@ const checkNumCorrectnes = (str, containsOf) => {
 
     str = str.toUpperCase();
 
-    for (var i = 0; i < str.length; i++) {
-        if (template.indexOf(str[i]) === -1) {
-            return false;
-        }
-    }
+	for (let i = 0; i < str.length; i++) {
+		if (template.indexOf(str[i]) === -1) {
+			return false;
+		}
+	}
 
     return true;
 }
