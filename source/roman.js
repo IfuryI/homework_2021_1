@@ -29,10 +29,8 @@ function arabicToRoman(num) {
     const hundreds = hundredsArr[parseInt(num / 100 % 10)];
     const tens = tensArr[parseInt(num / 10 % 10)];
     const ones = onesArr[parseInt(num % 10)];
-    
-    let res = thousends + hundreds + tens + ones;
 
-    return res;
+    return thousends + hundreds + tens + ones;
 }
 
 
