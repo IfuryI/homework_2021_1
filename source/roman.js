@@ -6,8 +6,8 @@ const tensArr = ["","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"];
 const hundredsArr = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"];
 const thousendsArr = ["","M","MM","MMM","MMMM"];
 
-const arabNum = [1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000];
-const romanNum = ['I','IV','V','IX','X','XL','L','XC','C','CD','D','CM','M'];
+const digitsConformity = {M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50,
+                          XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1};
 
 const minRomanNumber = 1;
 const maxRomanNumber = 3999;
@@ -56,27 +56,22 @@ function romanToArabic(str) {
         return null;
     }
 
-    str = str.toUpperCase();
+    return str.toUpperCase().split('').reduce(function (previousValue, currentItem, index, arr) {
+        const firstDigit = digitsConformity[arr[index]];
+        const secondDigit = digitsConformity[arr[index + 1]];
+        const thirdDigit = digitsConformity[arr[index + 2]];
 
-    let result = 0;
-    let i = arabNum.length - 1;
-    let pos = 0;
+        if (secondDigit && thirdDigit && firstDigit <= secondDigit && secondDigit < thirdDigit) {
+            return null;
+        }
 
-    while (i >= 0 && pos < str.length) {
-        if (str.substr(pos, romanNum[i].length) == romanNum[i]) {
-            result += arabNum[i];
-            pos += romanNum[i].length;
+        if (secondDigit > firstDigit) {
+            return previousValue - firstDigit;
         }
         else {
-            i--;
+            return previousValue + firstDigit;
         }
-    }
-
-    if (result < minRomanNumber || result > maxRomanNumber) {
-        return null
-    }
-
-    return result;
+    }, 0);
 }
 
 
