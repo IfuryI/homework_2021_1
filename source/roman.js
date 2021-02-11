@@ -11,6 +11,7 @@ const romanNum = ['I','IV','V','IX','X','XL','L','XC','C','CD','D','CM','M'];
 
 const minRomanNumber = 1;
 const maxRomanNumber = 3999;
+const maxRomanNumLength = 9;
 
 
 /**
@@ -51,7 +52,7 @@ function arabicToRoman(num) {
  * romanToArabic('V');
  */
 function romanToArabic(str) {
-    if (str.length === 0) {
+    if (str.length === 0 || str.length > maxRomanNumLength) {
         return null;
     }
 
