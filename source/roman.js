@@ -76,29 +76,6 @@ function romanToArabic(str) {
 
 /**
  *
- * Checks that a string consists of template symbols
- *
- * @param {string} str - given string roman number
- * @param {string} containsOf - given template
- * @returns {bool} result - bool value
- *
- * @ example
- * // returns true
- * checkNumCorrectnes("IV", "I,V,X,L,C,D,M");
- */
-const checkNumCorrectnes = (str, containsOf) => {
-    if (str.length === 0) {
-        return false;
-    }
-
-    let regexp = new RegExp(`^[${containsOf}]+$`, 'i');
-
-    return !!str.match(regexp);
-}
-
-
-/**
- *
  * Convert Roman to Arabic numerals and vice versa
  *
  * @param {string} numToConvert - given roman number string or integer arabic number
@@ -113,12 +90,12 @@ function roman(numToConvert) {
         return arabicToRoman(numToConvert);
     }
     
-    if (typeof numToConvert === "string") {
-        if (checkNumCorrectnes(numToConvert, "I,V,X,L,C,D,M")) {
+    if (typeof numToConvert === "string" && numToConvert.length != 0) {
+        if (!!numToConvert.match(/^[I,V,X,L,C,D,M]+$/i)) {
             return romanToArabic(numToConvert);
         }
         
-        if (checkNumCorrectnes(numToConvert, "1,2,3,4,5,6,7,8,9,0")) {
+        if (!!numToConvert.match(/^[1,2,3,4,5,6,7,8,9,0]+$/i)) {
             return arabicToRoman(parseInt(numToConvert));
         }
     }
