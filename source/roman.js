@@ -26,7 +26,7 @@ const maxRomanNumLength = 9;
  * arabicToRoman(5);
  */
 function arabicToRoman(num) {
-    if (Number.isInteger(num) != true ||
+    if (!Number.isInteger(num) ||
         num < minRomanNumber || num > maxRomanNumber) {
         return null;
     }
@@ -68,9 +68,8 @@ function romanToArabic(str) {
         if (secondDigit > firstDigit) {
             return previousValue - firstDigit;
         }
-        else {
-            return previousValue + firstDigit;
-        }
+        
+        return previousValue + firstDigit;
     }, 0);
 }
 
@@ -115,11 +114,11 @@ function roman(numToConvert) {
     }
     
     if (typeof numToConvert === "string") {
-        if (checkNumCorrectnes(numToConvert, "I,V,X,L,C,D,M") === true) {
+        if (checkNumCorrectnes(numToConvert, "I,V,X,L,C,D,M")) {
             return romanToArabic(numToConvert);
         }
         
-        if (checkNumCorrectnes(numToConvert, "1,2,3,4,5,6,7,8,9,0") === true) {
+        if (checkNumCorrectnes(numToConvert, "1,2,3,4,5,6,7,8,9,0")) {
             return arabicToRoman(parseInt(numToConvert));
         }
     }
