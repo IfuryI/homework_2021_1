@@ -83,7 +83,7 @@ function romanToArabic(str) {
  *
  * Checks that a string consists of template symbols
  *
- * @param {string} number - given string roman number
+ * @param {string} str - given string roman number
  * @param {string} containsOf - given template
  * @returns {bool} result - bool value
  *
