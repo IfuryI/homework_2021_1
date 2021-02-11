@@ -17,14 +17,19 @@ const maxRomanNumber = 3999;
  *
  * Convert Arabic to Roman numerals
  *
- * @param {num} number - given integer number
- * @returns {res} result - roman number
+ * @param {integer} num - given integer number
+ * @returns {string} result - roman number
  *
  * @ example
  * // returns 'V' 5
  * arabicToRoman(5);
  */
-function arabicToRoman(num) {    
+function arabicToRoman(num) {
+    if (Number.isInteger(num) != true ||
+        num < minRomanNumber || num > maxRomanNumber) {
+        return null;
+    }
+
     const thousends = thousendsArr[parseInt(num / 1000)];
     const hundreds = hundredsArr[parseInt(num / 100 % 10)];
     const tens = tensArr[parseInt(num / 10 % 10)];
@@ -38,23 +43,27 @@ function arabicToRoman(num) {
  *
  * Convert Roman to Arabic numerals
  *
- * @param {str} string - given string roman number
- * @returns {res} result - integer number
+ * @param {string} str - given string roman number
+ * @returns {integer} result - integer number
  *
  * @ example
  * // returns 5
  * romanToArabic('V');
  */
 function romanToArabic(str) {
+    if (str.length === 0) {
+        return null;
+    }
+
     str = str.toUpperCase();
 
-    let ret = 0;
+    let result = 0;
     let i = arabNum.length - 1;
     let pos = 0;
 
     while (i >= 0 && pos < str.length) {
         if (str.substr(pos, romanNum[i].length) == romanNum[i]) {
-            ret += arabNum[i];
+            result += arabNum[i];
             pos += romanNum[i].length;
         }
         else {
@@ -62,11 +71,11 @@ function romanToArabic(str) {
         }
     }
 
-    if (ret < minRomanNumber || ret > maxRomanNumber) {
+    if (result < minRomanNumber || result > maxRomanNumber) {
         return null
     }
 
-    return ret;
+    return result;
 }
 
 
@@ -74,26 +83,22 @@ function romanToArabic(str) {
  *
  * Checks that a string consists of template symbols
  *
- * @param {str} number - given string roman number
- * @param {str} containsOf - given template
- * @returns {res} result - bool value
+ * @param {string} number - given string roman number
+ * @param {string} containsOf - given template
+ * @returns {bool} result - bool value
  *
  * @ example
  * // returns true
- * checkNumCorrectnes("IV", "IVXLCDM");
+ * checkNumCorrectnes("IV", "I,V,X,L,C,D,M");
  */
 const checkNumCorrectnes = (str, containsOf) => {
-    const template = containsOf;
+    if (str.length === 0) {
+        return false;
+    }
 
-    str = str.toUpperCase();
+    let regexp = new RegExp(`^[${containsOf}]+$`, 'i');
 
-	for (let i = 0; i < str.length; i++) {
-		if (template.indexOf(str[i]) === -1) {
-			return false;
-		}
-	}
-
-    return true;
+    return !!str.match(regexp);
 }
 
 
@@ -109,22 +114,16 @@ const checkNumCorrectnes = (str, containsOf) => {
  * roman('V');
  */
 function roman(numToConvert) {
-    if (!numToConvert) {
-        return null;
-    }
-
-    if (typeof numToConvert === "number" && Number.isInteger(numToConvert) === true &&
-        numToConvert >= minRomanNumber && numToConvert <= maxRomanNumber) {
+    if (typeof numToConvert === "number") {
         return arabicToRoman(numToConvert);
     }
     
-    if (typeof numToConvert === "string" && numToConvert.length != 0) {
-        if (checkNumCorrectnes(numToConvert, "IVXLCDM") === true) {
+    if (typeof numToConvert === "string") {
+        if (checkNumCorrectnes(numToConvert, "I,V,X,L,C,D,M") === true) {
             return romanToArabic(numToConvert);
         }
         
-        if (checkNumCorrectnes(numToConvert, "1234567890") === true &&
-            parseInt(numToConvert) >= minRomanNumber && parseInt(numToConvert) <= maxRomanNumber) {
+        if (checkNumCorrectnes(numToConvert, "1,2,3,4,5,6,7,8,9,0") === true) {
             return arabicToRoman(parseInt(numToConvert));
         }
     }
