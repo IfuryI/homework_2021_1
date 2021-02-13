@@ -25,7 +25,7 @@ const maxRomanNumLength = 9;
  * // returns 'V' 5
  * arabicToRoman(5);
  */
-let arabicToRoman = (num) => {
+const arabicToRoman = (num) => {
     if (!Number.isInteger(num) ||
         num < minRomanNumber || num > maxRomanNumber) {
         return null;
@@ -51,12 +51,12 @@ let arabicToRoman = (num) => {
  * // returns 5
  * romanToArabic('V');
  */
-let romanToArabic = (str) => {
+const romanToArabic = (str) => {
     if (!str || str.length > maxRomanNumLength) {
         return null;
     }
 
-    return str.toUpperCase().split('').reduce(function (previousValue, currentItem, index, arr) {
+    return str.toUpperCase().split('').reduce((previousValue, currentItem, index, arr) => {
         const firstDigit = digitsConformity[arr[index]];
         const secondDigit = digitsConformity[arr[index + 1]];
         const thirdDigit = digitsConformity[arr[index + 2]];
@@ -85,7 +85,7 @@ let romanToArabic = (str) => {
  * // returns 5
  * roman('V');
  */
-let roman = (numToConvert) => {
+const roman = (numToConvert) => {
     if (typeof numToConvert === 'number') {
         return arabicToRoman(numToConvert);
     }
