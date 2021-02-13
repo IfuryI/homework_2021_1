@@ -1,10 +1,10 @@
 'use strict';
 
 
-const onesArr = ["","I","II","III","IV","V","VI","VII","VIII","IX"];
-const tensArr = ["","X","XX","XXX","XL","L","LX","LXX","LXXX","XC"];
-const hundredsArr = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"];
-const thousendsArr = ["","M","MM","MMM","MMMM"];
+const onesArr = ['','I','II','III','IV','V','VI','VII','VIII','IX'];
+const tensArr = ['','X','XX','XXX','XL','L','LX','LXX','LXXX','XC'];
+const hundredsArr = ['','C','CC','CCC','CD','D','DC','DCC','DCCC','CM'];
+const thousendsArr = ['','M','MM','MMM','MMMM'];
 
 const digitsConformity = {M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50,
                           XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1};
@@ -25,7 +25,7 @@ const maxRomanNumLength = 9;
  * // returns 'V' 5
  * arabicToRoman(5);
  */
-function arabicToRoman(num) {
+let arabicToRoman = (num) => {
     if (!Number.isInteger(num) ||
         num < minRomanNumber || num > maxRomanNumber) {
         return null;
@@ -51,7 +51,7 @@ function arabicToRoman(num) {
  * // returns 5
  * romanToArabic('V');
  */
-function romanToArabic(str) {
+let romanToArabic = (str) => {
     if (!str || str.length > maxRomanNumLength) {
         return null;
     }
@@ -85,17 +85,17 @@ function romanToArabic(str) {
  * // returns 5
  * roman('V');
  */
-function roman(numToConvert) {
-    if (typeof numToConvert === "number") {
+let roman = (numToConvert) => {
+    if (typeof numToConvert === 'number') {
         return arabicToRoman(numToConvert);
     }
     
-    if (typeof numToConvert === "string") {
+    if (typeof numToConvert === 'string') {
         if (/^[IVXLCDM]+$/i.test(numToConvert)) {
             return romanToArabic(numToConvert);
         }
         
-        if (/^[1234567890]+$/i.test(numToConvert)) {
+        if (/^[0-9]+$/i.test(numToConvert)) {
             return arabicToRoman(parseInt(numToConvert));
         }
     }
